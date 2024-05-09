@@ -6,6 +6,9 @@ jobs:
       - image: semgrep/semgrep
     steps:
       - checkout
+      - run:    
+          name: "Dump Vars"
+          command: env
       - run:
           name: "Semgrep full scan"
           command: semgrep ci

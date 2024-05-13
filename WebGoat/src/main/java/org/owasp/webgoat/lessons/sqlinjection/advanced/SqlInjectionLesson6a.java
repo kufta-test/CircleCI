@@ -43,15 +43,11 @@ public class SqlInjectionChallenge extends AssignmentEndpoint {
                 if (resultSet.next()) {
                     attackResult = success(this).feedback("user.exists").build();
                 } else {
-                    // Fixed SQL Injection vulnerability using PreparedStatement
-                    String insertQuery = "INSERT INTO sql_challenge_users VALUES (?, ?, ?)";
-                    try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
-                        preparedStatement.setString(1, username_reg);
-                        preparedStatement.setString(2, email_reg);
-                        preparedStatement.setString(3, password_reg);
-                        preparedStatement.execute();
-                        attackResult = success(this).feedback("user.created").feedbackArgs(username_reg).build();
-                    }
+                    // Reverting the PreparedStatement to a vulnerable Statement
+                    String insertUserQuery =
+                        "INSERT INTO sql_challenge_users VALUES ('" + username_reg + "', '" + email_reg + "', '" + password_reg + "')";
+                    statement.execute(insertUserQuery); // This is vulnerable to SQL Injection
+                    attackResult = success(this).feedback("user.created").feedbackArgs(username_reg).build();
                 }
             } catch (SQLException e) {
                 attackResult = failed(this).output("Something went wrong").build();

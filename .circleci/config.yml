@@ -7,11 +7,11 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "Manually set environment variables"
+          name: "Set environment variables"
           command: |
-            echo 'export SEMGREP_COMMIT=$CIRCLE_SHA1' >> $BASH_ENV
-            echo 'export SEMGREP_PR_ID=$CIRCLE_PULL_REQUEST##*/*' >> $BASH_ENV
-            echo 'export SEMGREP_JOB_URL=$CIRCLE_BUILD_URL' >> $BASH_ENV
+            export SEMGREP_COMMIT=$CIRCLE_SHA1
+            export SEMGREP_PR_ID=$CIRCLE_PULL_REQUEST##*/*
+            export SEMGREP_JOB_URL=$CIRCLE_BUILD_URL
       - run:
           name: "Semgrep full scan"
           command: semgrep ci
@@ -26,11 +26,11 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "Manually set environment variables"
+          name: "Set environment variables"
           command: |
-            echo 'export SEMGREP_COMMIT=$CIRCLE_SHA1' >> $BASH_ENV
-            echo 'export SEMGREP_PR_ID=$CIRCLE_PULL_REQUEST##*/*' >> $BASH_ENV
-            echo 'export SEMGREP_JOB_URL=$CIRCLE_BUILD_URL' >> $BASH_ENV      
+            export SEMGREP_COMMIT=$CIRCLE_SHA1
+            export SEMGREP_PR_ID=$CIRCLE_PULL_REQUEST##*/*
+            export SEMGREP_JOB_URL=$CIRCLE_BUILD_URL    
       - run:
           name: Semgrep diff scan
           environment:
